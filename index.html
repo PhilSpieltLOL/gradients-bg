@@ -10,65 +10,123 @@
     <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@700&display=swap" rel="stylesheet">
 
     <style>
-      .text-container {
-        /* Assuming this class might already have centering styles */
-        /* Added fallback styles just in case */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative; /* Needed to place it above the gradient background */
-        z-index: 10; /* Ensure it's above the gradient */
-        height: 100vh; /* Make container take full viewport height */
-        width: 100%; /* Make container take full viewport width */
-        pointer-events: none; /* Allow interaction with elements behind if needed */
-      }
-      .text-container img {
-         max-width: 80%; /* Prevent image from being too large */
-         max-height: 80vh;
-         object-fit: contain;
-      }
-      /* Ensure body takes full height */
+      /* Ensure body takes full height and remove default margin */
       body, html {
         height: 100%;
         margin: 0;
         padding: 0;
         position: relative; /* Needed for absolute positioning of children */
       }
-      /* Ensure gradient background covers everything */
+
+      /* Center container */
+      .text-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative; /* Keep relative for z-index stacking */
+        z-index: 10;      /* Ensure it's above the gradient */
+        min-height: 100vh; /* Use min-height to ensure container fills viewport */
+        width: 100%;
+        padding: 20px; /* Add some padding around the card if needed */
+        box-sizing: border-box; /* Include padding in width/height */
+      }
+
+      /* Glassmorphism card */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
+        backdrop-filter: blur(12px);          /* Apply background blur */
+        -webkit-backdrop-filter: blur(12px);  /* Safari compatibility */
+        border-radius: 15px;                  /* Rounded corners */
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+        padding: 25px;                        /* Padding inside the card */
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Optional subtle shadow */
+        /* Make card size flexible but constrained */
+        max-width: 55%; /* Adjust max-width to control overall size */
+        display: inline-block; /* Shrink-wrap the content */
+      }
+
+      /* Image styling within the card */
+      .glass-card img {
+         display: block; /* Removes extra space below image */
+         max-width: 100%; /* Make image fit the card's padding */
+         height: auto;   /* Maintain aspect ratio */
+         border-radius: 5px; /* Optional: slightly round image corners */
+      }
+
+      /* Gradient background styles (keep as they were) */
       .gradient-bg {
          position: absolute;
          top: 0;
          left: 0;
          width: 100%;
          height: 100%;
+         overflow: hidden; /* Hide parts of blobs outside the viewport */
          z-index: 1; /* Behind the image container */
       }
+      .gradient-bg svg {
+         display: none; /* SVG filter definition doesn't need display */
+      }
+      .gradients-container {
+         filter: url(#goo) blur(40px); /* Apply SVG filter and extra blur */
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+      }
+      /* Add styles for g1, g2, g3, g4, g5, interactive if they are missing */
+      /* Example (assuming these are defined in your main.ts or another CSS): */
+       .g1, .g2, .g3, .g4, .g5, .interactive {
+           position: absolute;
+           border-radius: 50%;
+           /* Ensure background/color definitions exist for blobs */
+           /* background: radial-gradient(circle at center, rgba(var(--color), 0.8) 0, rgba(var(--color), 0) 50%) no-repeat; */
+           mix-blend-mode: hard-light; /* Or other blend modes */
+       }
+       /* Define colors and sizes/animations elsewhere */
+
     </style>
   </head>
   <body>
-  <div class="text-container">
-    <img src="https://videos.openai.com/vg-assets/assets%2Ftask_01jr1h0yq4eb984vm2a8mc9ptc%2Fimg_0.webp?st=2025-04-04T21%3A52%3A15Z&se=2025-04-10T22%3A52%3A15Z&sks=b&skt=2025-04-04T21%3A52%3A15Z&ske=2025-04-10T22%3A52%3A15Z&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skoid=aa5ddad1-c91a-4f0a-9aca-e20682cc8969&skv=2019-02-02&sv=2018-11-09&sr=b&sp=r&spr=https%2Chttp&sig=rmac75J8ZC3YPSj7yFdZJ3rpXnGpgUf5DHtqBM6VvgU%3D&az=oaivgprodscus" alt="Robot with Wrench near server rack" />
-  </div>
 
-  <div class="gradient-bg">
-    <svg xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
-          <feBlend in="SourceGraphic" in2="goo" />
-        </filter>
-      </defs>
-    </svg>
-    <div class="gradients-container">
-      <div class="g1"></div>
-      <div class="g2"></div>
-      <div class="g3"></div>
-      <div class="g4"></div>
-      <div class="g5"></div>
-      <div class="interactive"></div>
+    <div class="text-container">
+      <div class="glass-card">
+        <img src="20250405_0110_Robot with Wrench_remix_01jr1h44nqfg69nv981nvphdms.jpg" alt="Robot with Wrench near server rack" />
+      </div>
     </div>
-  </div>
+
+    <div class="gradient-bg">
+      <svg xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="goo">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+            <feBlend in="SourceGraphic" in2="goo" />
+          </filter>
+        </defs>
+      </svg>
+      <div class="gradients-container">
+        <div class="g1"></div>
+        <div class="g2"></div>
+        <div class="g3"></div>
+        <div class="g4"></div>
+        <div class="g5"></div>
+        <div class="interactive"></div>
+      </div>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
-  </body>
+
+    <script async
+      src="https://agent-uj3ljx7abf63uqxclju5udjc-2sv5g.ondigitalocean.app/static/chatbot/widget.js"
+      data-agent-id="19ef8828-13db-11f0-bf8f-4e013e2ddde4"
+      data-chatbot-id="glfmXJ0S-pWZexjQHmgczZLVrkeGzVLO"
+      data-name="OceanFlowAI"
+      data-primary-color="#031B4E"
+      data-secondary-color="#E5E8ED"
+      data-button-background-color="#0061EB"
+      data-starting-message="Wie kann ich behilflich sein?"
+      data-logo="/chatbot-logo">
+    </script>
+    </body>
 </html>
